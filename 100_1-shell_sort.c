@@ -11,24 +11,32 @@ void swap(int *a, int *b);
 
 void shell_sort(int *array, size_t size)
 {
-	size_t kth_seq, i, j;
+	size_t k = 0, j, l, m, n;
 
-	if (array == NULL || size < 2)
-		return;
+	while (k < size)
+		k = 3 * k + 1;
+	k = (k - 1) / 3;
 
-	for (kth_seq = 1; kth_seq < (size / 3);)
-		kth_seq = kth_seq * 3 + 1;
-
-	for (; kth_seq >= 1; kth_seq /= 3)
+	for (k = (k - 1) / 3; k >= 1; k = (k - 1) / 3)
 	{
-		for (i = kth_seq; i < size; i++)
+		if (k != 1)
 		{
-			j = i;
-			while (j >= kth_seq && array[j - kth_seq] > array[j])
+			for (l = k; l < size; l++)
 			{
-				swap(&array[j], &array[j - kth_seq]);
-				j -= kth_seq;
+				j = 0;
+				if (array[l] < array[j])
+				{
+					swap(&array[j], &array[l]);
+					j++;
+				}
 			}
+		}
+		else
+		{
+			for (m = 0; m < size; m++)
+				for (n = m + 1; n < size; n++)
+					if (array[n] < array[m])
+						swap(&array[n], &array[m]);
 		}
 		print_array(array, size);
 	}
